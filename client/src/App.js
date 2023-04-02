@@ -1,9 +1,7 @@
+import QuestionInput from "./components/QuestionInput/QuestionInput";
+
 function App() {
-  return (
-    <h1>
-      Hello World from Expert Circle
-    </h1>
-  );
+  return <QuestionInput />;
 }
 
 export default App;
