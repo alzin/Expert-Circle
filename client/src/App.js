@@ -26,17 +26,18 @@ const App = () => {
 
   const getJsonArray = (str) => {
     return JSON.parse(str);
-  }
+  };
 
   if (articleData) {
     console.log(articleData);
     return (
       <div>
-        <Article 
-        title={articleData.split("Title: ")[1].split("\n")[0]} 
-        image={imageUrl} 
-        body={articleData.split("Body: ")[1].split("Ref: ")[0]} 
-        references={getJsonArray(articleData.split("Ref: ")[1])} />
+        <Article
+          title={articleData.split("Title: ")[1].split("\n")[0]}
+          image={imageUrl}
+          body={articleData.split("Body: ")[1].split("Ref: ")[0]}
+          references={getJsonArray(articleData.split("Ref: ")[1])}
+        />
       </div>
     );
   } else {

@@ -39,12 +39,12 @@ async function getCustomArticle(prompt) {
   const articlePrompt =
     "Write a very detailed article about " +
     prompt +
-    " Using the following structure \n Title: \n Body: \n Ref:" + 
-    "and make sure to write after Ref: in the form of json array object of title and url as of the form" + 
+    " Using the following structure \n Title: \n Body: \n Ref:" +
+    "and make sure to write after Ref: in the form of json array object of title and url as of the form" +
     `[
       {"title":"","url":"" },
-      {"title":"", "url": ""}` + 
-      "and give as much ref as possible";
+      {"title":"", "url": ""}` +
+    "and give as much ref as possible";
 
   let text = "";
 
