@@ -37,22 +37,25 @@ async function generateImage(prompt) {
 
 async function getCustomArticle(prompt) {
   const articlePrompt =
-    "Write an article about " +
+    "Write a very detailed article about " +
     prompt +
-    " by obey the following strcuture \n Title: \n Body: \n Ref:";
+    " Using the following structure \n Title: \n Body: \n Ref:" + 
+    "and make sure to write after Ref: in the form of json array object of title and url as of the form" + 
+    `[
+      {"title":"","url":"" },
+      {"title":"", "url": ""}` + 
+      "and give as much ref as possible";
 
-  const text = "";
+  let text = "";
 
   try {
-    console.log(articlePrompt);
     const modelResponse = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: articlePrompt,
-      temperature: 0.7,
-      max_tokens: 1000,
+      temperature: 1.0,
+      max_tokens: 2048,
     });
     text = modelResponse.data.choices[0].text;
-    console.log(text);
   } catch (error) {
     console.error(error.message);
   }
@@ -70,6 +73,7 @@ app.post("/ask", async (req, res) => {
   const generatedText = await getCustomArticle(receivedPrompt);
 
   if (generatedText) {
+    console.log(generatedText);
     res.json({ data: generatedText, url: imageUrl });
   } else {
     res
