@@ -52,8 +52,8 @@ async function getCustomArticle(prompt) {
     const modelResponse = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: articlePrompt,
-      temperature: 1.0,
-      max_tokens: 2048,
+      temperature: 0.7,
+      max_tokens: 4000,
     });
     text = modelResponse.data.choices[0].text;
   } catch (error) {

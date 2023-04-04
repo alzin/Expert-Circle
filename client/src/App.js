@@ -2,8 +2,6 @@ import { useState } from "react";
 import QuestionInput from "./components/QuestionInput/QuestionInput";
 import Article from "./components/Article/Article";
 
-// import { DUMMY_ARTICLE } from "./DUMMY_ARTICLE";
-
 const App = () => {
   const [articleData, setArticleData] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -29,7 +27,6 @@ const App = () => {
   };
 
   if (articleData) {
-    console.log(articleData);
     return (
       <div>
         <Article
