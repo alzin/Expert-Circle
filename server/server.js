@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const { Configuration, OpenAIApi } = require("openai");
+const { google } = require("googleapis");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,12 +18,16 @@ app.use((req, res, next) => {
   next();
 });
 
-const apiKey = process.env.API_KEY;
-
 const configuration = new Configuration({
-  apiKey: apiKey,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+
+// Create a YouTube API client
+const youtube = google.youtube({
+  version: "v3",
+  auth: process.env.YOUTUBE_API_KEY,
+});
 
 async function generateImage(prompt) {
   const imageResponse = await openai.createImage({
@@ -63,18 +68,31 @@ async function getCustomArticle(prompt) {
   return text;
 }
 
+async function getYoutubeRecommendations(query) {
+  try {
+    const response = await youtube.search.list({
+      part: "id,snippet",
+      q: query,
+    });
+    return response.data.items;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 app.get("/", (req, res) => {
   res.send({ express: "Hello from Express" });
 });
 
 app.post("/ask", async (req, res) => {
   const receivedPrompt = req.body.prompt;
+
+  const videos = await getYoutubeRecommendations(receivedPrompt);
   const imageUrl = await generateImage(receivedPrompt);
   const generatedText = await getCustomArticle(receivedPrompt);
 
   if (generatedText) {
-    console.log(generatedText);
-    res.json({ data: generatedText, url: imageUrl });
+    res.json({ data: generatedText, url: imageUrl, videos: videos });
   } else {
     res
       .status(500)
