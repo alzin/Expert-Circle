@@ -16,6 +16,12 @@ const QuestionInput = (props) => {
     setQuestionValue("");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleClick();
+    }
+  };
+
   return (
     <div className="input-container">
       <input
@@ -23,6 +29,7 @@ const QuestionInput = (props) => {
         value={questionValue}
         placeholder="Type an article name for any topic..."
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       <button type="submit" onClick={handleClick}>
         <SiTurbosquid size={24} />

@@ -13,9 +13,11 @@ const Article = ({ title, image, body, videos, references }) => {
         <Paragraph text={body} />
         {Array.isArray(videos) &&
           videos.map((video, index) => (
-            <div>
-              <h1 key={index}>{video.snippet.title} </h1>
-              <YouTube videoId={video.id.videoId} key={video.id.videoId} />
+            <div key={index}>
+              <h2>{video.snippet.title} </h2>
+              <div style={{ textAlign: "center" }}>
+                <YouTube videoId={video.id.videoId} />
+              </div>
             </div>
           ))}
         {references && (
