@@ -5,10 +5,13 @@ import Article from "./components/Article/Article";
 import Loader from "./components/Loader/Loader";
 
 const App = () => {
-  const [articleData, setArticleData] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [articleTitle, setArticleTitle] = useState("");
+  const [articleImageUrl, setArticleImageUrl] = useState("");
+  const [articleBody, setArticleBody] = useState("");
+  const [articleSections, setArticleSections] = useState([]);
+  const [articleYoutubeVideos, setArticleYouTubeVideos] = useState([]);
+  const [articleReferences, setArticleReferences] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [videos, setVideos] = useState([]);
 
   const handleSubmit = async (question) => {
     try {
@@ -20,35 +23,53 @@ const App = () => {
       });
       const responseText = await response.json();
 
-      setIsLoading(false);
-      setArticleData(responseText.data);
-      setImageUrl(responseText.url);
-      setVideos(responseText.videos);
+      setArticleTitle(responseText.title);
+      setArticleImageUrl(responseText.url);
+      setArticleBody(responseText.body);
+      setArticleYouTubeVideos(responseText.videos);
+      setArticleReferences(responseText.ref);
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
-  const getJsonArray = (str) => {
+  const handleEdit = async (edit) => {
     try {
-      return JSON.parse(str);
+      setIsLoading(true);
+      const response = await fetch("http://localhost:5000/edit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: edit }),
+      });
+      const responseText = await response.json();
+
+      const content = responseText.newText;
+      const newSection = {
+        title: edit,
+        content: content,
+      };
+
+      setArticleSections([...articleSections, newSection]);
     } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return null;
+      console.log(error);
     }
+    setIsLoading(false);
   };
 
-  if (articleData) {
+  if (articleTitle) {
     return (
       <div>
         <Article
-          title={articleData.split("Title:")[1].split("\n")[0]}
-          image={imageUrl}
-          body={articleData.split("Body:")[1].split("Ref:")[0]}
-          videos={videos}
-          references={getJsonArray(articleData.split("Ref:")[1])}
+          title={articleTitle}
+          image={articleImageUrl}
+          body={articleBody}
+          sections={articleSections}
+          videos={articleYoutubeVideos}
+          references={articleReferences}
         />
+        {isLoading ? <Loader /> : <div></div>}
+        <QuestionInput onSubmit={handleEdit} />
       </div>
     );
   } else {

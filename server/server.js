@@ -40,32 +40,33 @@ async function generateImage(prompt) {
   return imageUrl;
 }
 
+let messages = [
+  { role: "system", content: "You are a helpful assistant." },
+  {
+    role: "user",
+    content: `Write a very detailed Article Using the following structure \n Title: \n Body: \n Ref: and make sure to write after Ref: in the form of JSON array object of title and URL as of the form"
+  [
+    {"title":"","url":"" },
+    {"title":"", "url": ""}
+  "and give as much ref as possible`,
+  },
+];
+
+let articleText = "";
+
 async function getCustomArticle(prompt) {
-  const articlePrompt =
-    "Write a very detailed Article about " +
-    prompt +
-    " Using the following structure \n Title: \n Body: \n Ref:" +
-    "and make sure to write after Ref: in the form of JSON array object of title and URL as of the form" +
-    `[
-      {"title":"","url":"" },
-      {"title":"", "url": ""}` +
-    "and give as much ref as possible";
-
-  let text = "";
-
+  messages.push({ role: "system", content: prompt });
   try {
-    const modelResponse = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: articlePrompt,
-      temperature: 0.7,
-      max_tokens: 4000,
+    const modelResponse = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: messages,
     });
-    text = modelResponse.data.choices[0].text;
+
+    articleText = modelResponse.data.choices[0].message.content;
   } catch (error) {
     console.error(error.message);
   }
-
-  return text;
+  return articleText;
 }
 
 async function getYoutubeRecommendations(query) {
@@ -84,6 +85,15 @@ app.get("/", (req, res) => {
   res.send({ express: "Hello from Express" });
 });
 
+const getJsonArray = (str) => {
+  try {
+    return JSON.parse(str);
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+    return null;
+  }
+};
+
 app.post("/ask", async (req, res) => {
   const receivedPrompt = req.body.prompt;
 
@@ -92,11 +102,62 @@ app.post("/ask", async (req, res) => {
   const generatedText = await getCustomArticle(receivedPrompt);
 
   if (generatedText) {
-    res.json({ data: generatedText, url: imageUrl, videos: videos });
+    const title = generatedText.split("Title:")[1].split("\n")[0];
+    const body = generatedText.split("Body:")[1].split("Ref:")[0];
+    const ref = getJsonArray(generatedText.split("Ref:")[1]);
+
+    res.json({
+      title: title,
+      url: imageUrl,
+      body: body,
+      videos: videos,
+      ref: ref,
+    });
   } else {
     res
       .status(500)
-      .send({ error: "An error occurred while handling the request" });
+      .send({ error: "An error occurred while handling the ask request" });
+  }
+});
+
+let editMessages = [
+  { role: "system", content: "You are a helpful assistant." },
+  { role: "user", content: "Write about the following." },
+];
+
+async function editArticle(prompt) {
+  let editRequest = {
+    role: "system",
+    content: `${prompt}`,
+  };
+  editMessages.push(editRequest);
+
+  let text = "";
+  try {
+    const modelResponse = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: editMessages,
+    });
+
+    text = modelResponse.data.choices[0].message.content;
+  } catch (error) {
+    console.error(error.message);
+  }
+
+  editMessages.pop();
+  return text;
+}
+
+app.post("/edit", async (req, res) => {
+  const editPrompt = req.body.prompt;
+  const text = await editArticle(editPrompt);
+
+  if (text) {
+    res.json({ newText: text });
+  } else {
+    res
+      .status(500)
+      .send({ error: "An error occurred while handling the edit request" });
   }
 });
 
