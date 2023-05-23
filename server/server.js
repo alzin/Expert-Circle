@@ -30,24 +30,30 @@ const youtube = google.youtube({
 });
 
 async function generateImage(prompt) {
-  const imageResponse = await openai.createImage({
-    prompt: prompt,
-    n: 1,
-    size: "256x256",
-  });
-  const imageUrl = imageResponse.data.data[0].url;
+  let imageUrl =
+    "https://content.api.news/v3/images/bin/19baaccb3d706775bb9c3bbe2f946bb3";
+  try {
+    const imageResponse = await openai.createImage({
+      prompt: prompt,
+      n: 1,
+      size: "512x512",
+    });
+    imageUrl = imageResponse.data.data[0].url;
+  } catch (error) {
+    console.log("generateImage: " + error.message);
+  }
 
   return imageUrl;
 }
 
 let messages = [
-  { role: "system", content: "You are a helpful assistant." },
+  { role: "system", content: "You are a helpful assistant who right articles following the structure of Title: Body: Ref:" },
   {
     role: "user",
     content: `Write a very detailed Article Using the following structure \n Title: \n Body: \n Ref: and make sure to write after Ref: in the form of JSON array object of title and URL as of the form"
   [
-    {"title":"","url":"" },
-    {"title":"", "url": ""}
+    {"url_title":"","url":"" },
+    {"url_title":"", "url": ""}
   "and give as much ref as possible`,
   },
 ];
@@ -63,8 +69,9 @@ async function getCustomArticle(prompt) {
     });
 
     articleText = modelResponse.data.choices[0].message.content;
+    console.log(articleText);
   } catch (error) {
-    console.error(error.message);
+    console.error("getCustomArticle: " + error.message);
   }
   return articleText;
 }
@@ -77,7 +84,7 @@ async function getYoutubeRecommendations(query) {
     });
     return response.data.items;
   } catch (error) {
-    console.error(error);
+    console.error("getYoutubeRecommendations: " + error.message);
   }
 }
 
@@ -89,7 +96,7 @@ const getJsonArray = (str) => {
   try {
     return JSON.parse(str);
   } catch (error) {
-    console.error("Error parsing JSON:", error);
+    console.error("Error parsing JSON: ", error);
     return null;
   }
 };
@@ -102,9 +109,23 @@ app.post("/ask", async (req, res) => {
   const generatedText = await getCustomArticle(receivedPrompt);
 
   if (generatedText) {
-    const title = generatedText.split("Title:")[1].split("\n")[0];
-    const body = generatedText.split("Body:")[1].split("Ref:")[0];
-    const ref = getJsonArray(generatedText.split("Ref:")[1]);
+    let title = "Default title";
+    const titleIndex = generatedText.indexOf("Title:");
+    if (titleIndex != -1) {
+      title = generatedText.split("Title:")[1].split("\n")[0];
+    }
+
+    let body = "Default body";
+    const bodyIndex = generatedText.indexOf("Body:");
+    if (bodyIndex != -1) {
+      body = generatedText.split("Body:")[1].split("Ref:")[0];
+    }
+
+    let ref = "Default ref";
+    const refIndex = generatedText.indexOf("Ref:");
+    if (refIndex != -1) {
+      ref = getJsonArray(generatedText.split("Ref:")[1]);
+    }
 
     res.json({
       title: title,
@@ -141,7 +162,7 @@ async function editArticle(prompt) {
 
     text = modelResponse.data.choices[0].message.content;
   } catch (error) {
-    console.error(error.message);
+    console.error("editArticle: " + error.message);
   }
 
   editMessages.pop();

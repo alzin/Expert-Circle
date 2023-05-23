@@ -34,7 +34,7 @@ const Article = ({ title, image, body, sections, videos, references }) => {
               {references.map((ref, index) => (
                 <li key={index}>
                   <a href={ref.url} target="_blank" rel="noreferrer">
-                    {ref.title}
+                    {ref.url_title}
                   </a>
                 </li>
               ))}
