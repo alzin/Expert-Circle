@@ -47,14 +47,15 @@ async function generateImage(prompt) {
 }
 
 let messages = [
-  { role: "system", content: "You are a helpful assistant who right articles following the structure of Title: Body: Ref:" },
+  {
+    role: "system",
+    content:
+      "あなたはSEOとウェブサイトの有機的検索をサポートする記事やブログを書く役立つアシスタントです。これらの記事は人間が書いたかのように見える必要があり、構造に従っています Title: [Title of your article or blog] Body: [Introduction to your topic] [Main body of your article or blog. Make sure to include relevant information, insights, and examples to provide value to the readers. You can break the body into multiple paragraphs.] [Conclusion or summary of your article or blog]",
+  },
   {
     role: "user",
-    content: `Write a very detailed Article Using the following structure \n Title: \n Body: \n Ref: and make sure to write after Ref: in the form of JSON array object of title and URL as of the form"
-  [
-    {"url_title":"","url":"" },
-    {"url_title":"", "url": ""}
-  "and give as much ref as possible`,
+    content:
+      "非常に詳細な記事を書いて、この構造Title: Body:に従っています 。以下のキーワードからできるだけ多くの言葉を使用してSEOを強化して。[一時保育、 渋谷区、保育園、料金、子供、幼児期]",
   },
 ];
 
@@ -92,15 +93,6 @@ app.get("/", (req, res) => {
   res.send({ express: "Hello from Express" });
 });
 
-const getJsonArray = (str) => {
-  try {
-    return JSON.parse(str);
-  } catch (error) {
-    console.error("Error parsing JSON: ", error);
-    return null;
-  }
-};
-
 app.post("/ask", async (req, res) => {
   const receivedPrompt = req.body.prompt;
 
@@ -118,13 +110,7 @@ app.post("/ask", async (req, res) => {
     let body = "Default body";
     const bodyIndex = generatedText.indexOf("Body:");
     if (bodyIndex != -1) {
-      body = generatedText.split("Body:")[1].split("Ref:")[0];
-    }
-
-    let ref = "Default ref";
-    const refIndex = generatedText.indexOf("Ref:");
-    if (refIndex != -1) {
-      ref = getJsonArray(generatedText.split("Ref:")[1]);
+      body = generatedText.split("Body:")[1];
     }
 
     res.json({
@@ -132,7 +118,6 @@ app.post("/ask", async (req, res) => {
       url: imageUrl,
       body: body,
       videos: videos,
-      ref: ref,
     });
   } else {
     res

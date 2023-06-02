@@ -10,7 +10,6 @@ const App = () => {
   const [articleBody, setArticleBody] = useState("");
   const [articleSections, setArticleSections] = useState([]);
   const [articleYoutubeVideos, setArticleYouTubeVideos] = useState([]);
-  const [articleReferences, setArticleReferences] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (question) => {
@@ -27,7 +26,6 @@ const App = () => {
       setArticleImageUrl(responseText.url);
       setArticleBody(responseText.body);
       setArticleYouTubeVideos(responseText.videos);
-      setArticleReferences(responseText.ref);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +64,6 @@ const App = () => {
           body={articleBody}
           sections={articleSections}
           videos={articleYoutubeVideos}
-          references={articleReferences}
         />
         {isLoading ? <Loader /> : <div></div>}
         <QuestionInput onSubmit={handleEdit} />
