@@ -1,19 +1,18 @@
 import React from "react";
-
 import "./Paragraph.css";
 
 function Paragraph(props) {
-  const lastDotIndex = props.text.lastIndexOf(".");
-  const truncatedText = props.text.substring(0, lastDotIndex);
-  const sentences = truncatedText.split(". ");
-  const paragraphs = sentences.map((sentence) => (
-    <p className="article-body" key={sentence}>
-      {sentence}.
-      <br />
+  // Split the text into paragraphs based on two or more consecutive newlines
+  const paragraphs = props.text.split(/\n{2,}/);
+
+  // Format and render each paragraph in separate <p> tags
+  const formattedParagraphs = paragraphs.map((paragraph, index) => (
+    <p className="article-body" key={index}>
+      {paragraph.trim()}
     </p>
   ));
 
-  return <div>{paragraphs}</div>;
+  return <div>{formattedParagraphs}</div>;
 }
 
 export default Paragraph;
