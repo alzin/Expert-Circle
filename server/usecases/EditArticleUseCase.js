@@ -16,17 +16,14 @@ class EditArticleUseCase {
     let text = "";
 
     try {
-      const modelResponse = await this.openAIService.createChatCompletion({
+      text = await this.openAIService.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: this.editMessages,
       });
-
-      text = modelResponse.data.choices[0].message.content;
     } catch (error) {
       console.error("editArticle: " + error.message);
     }
 
-    this.editMessages.pop();
     return text;
   }
 }

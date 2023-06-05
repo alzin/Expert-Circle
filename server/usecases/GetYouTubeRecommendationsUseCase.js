@@ -9,8 +9,6 @@ class GetYouTubeRecommendationsUseCase {
         part: "id,snippet",
         q: query,
       });
-      console.log("In GetYouTubeRecommendationsUseCase");
-      console.log(response);
       return response;
     } catch (error) {
       console.error("getYoutubeRecommendations: " + error.message);

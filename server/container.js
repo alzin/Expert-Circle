@@ -33,7 +33,7 @@ container
     askController: asClass(AskController).scoped(),
     editController: asClass(EditController).scoped(),
     prompt: asValue(
-      'Write a very detailed Article Using the following structure \n Title: \n Body: \n Ref: and make sure to write after Ref: in the form of JSON array object of title and URL as of the form"\n [{"url_title":"","url":"" }, {"url_title":"", "url": ""} "and give as much ref as possible'
+      "Write a very detailed Article Using the following structure \n Title: \n Body:"
     ),
   })
   .loadModules([], {

@@ -19,8 +19,6 @@ class GenerateCustomArticleUseCase {
         model: "gpt-3.5-turbo",
         messages: this.messages,
       });
-
-      console.log(modelResponse);
     } catch (error) {
       console.error("getCustomArticle: " + error.message);
     }

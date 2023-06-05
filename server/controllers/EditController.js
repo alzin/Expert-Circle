@@ -8,7 +8,7 @@ class EditController {
     const text = await this.editArticleUseCase.execute(editPrompt);
 
     if (text) {
-      res.send(text);
+      res.json({ newText: text });
     } else {
       res
         .status(500)

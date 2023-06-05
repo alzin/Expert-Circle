@@ -1,4 +1,3 @@
-// OpenAIService.js
 const { Configuration, OpenAIApi } = require("openai");
 
 class OpenAIService {
