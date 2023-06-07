@@ -1,29 +1,16 @@
 class GenerateCustomArticleUseCase {
   constructor(openAIService) {
     this.openAIService = openAIService;
-    this.messages = [
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant who writes articles following the structure of Title: Body: Ref:",
-      },
-    ];
   }
 
   async execute(prompt) {
-    this.messages.push({ role: "user", content: prompt });
-
-    let modelResponse = "Title: My Title: Body: My Body";
+    let article = "Title: I AM EMPTY: Body: NO PRAGRAH";
     try {
-      modelResponse = await this.openAIService.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: this.messages,
-      });
+      article = await this.openAIService.createChatCompletion(prompt);
     } catch (error) {
-      console.error("getCustomArticle: " + error.message);
+      console.error("GenerateCustomArticleUseCase: " + error.message);
     }
-
-    return modelResponse;
+    return article;
   }
 }
 

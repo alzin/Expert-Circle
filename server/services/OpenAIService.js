@@ -6,11 +6,22 @@ class OpenAIService {
       apiKey: process.env.OPENAI_API_KEY,
     });
     this.openai = new OpenAIApi(this.configuration);
+    this.messages = [
+      {
+        role: "system",
+        content:
+          "You are a professional writer who writes articles following the structure of Title: Body: Ref:",
+      },
+    ];
   }
 
   async createChatCompletion(params) {
+    this.messages.push({ role: "user", content: params });
     try {
-      const response = await this.openai.createChatCompletion(params);
+      const response = await this.openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: this.messages,
+      });
       return response.data.choices[0].message.content;
     } catch (error) {
       console.error("createChatCompletion: " + error.message);

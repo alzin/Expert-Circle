@@ -9,9 +9,9 @@ const OpenAIService = require("./services/OpenAIService");
 const YouTubeService = require("./services/YouTubeService");
 const GenerateImageUseCase = require("./usecases/GenerateImageUseCase");
 const GenerateCustomArticleUseCase = require("./usecases/GenerateCustomArticleUseCase");
-const GetYouTubeRecommendationsUseCase = require("./usecases/GetYouTubeRecommendationsUseCase");
+const GetYouTubeVideosUseCase = require("./usecases/GetYouTubeVideosUseCase");
 const EditArticleUseCase = require("./usecases/EditArticleUseCase");
-const AskController = require("./controllers/AskController");
+const ArticleDataController = require("./controllers/ArticleDataController");
 const EditController = require("./controllers/EditController");
 
 const container = createContainer({
@@ -26,11 +26,9 @@ container
     generateCustomArticleUseCase: asClass(
       GenerateCustomArticleUseCase
     ).scoped(),
-    getYouTubeRecommendationsUseCase: asClass(
-      GetYouTubeRecommendationsUseCase
-    ).scoped(),
+    getYouTubeVideosUseCase: asClass(GetYouTubeVideosUseCase).scoped(),
     editArticleUseCase: asClass(EditArticleUseCase).scoped(),
-    askController: asClass(AskController).scoped(),
+    articleDataController: asClass(ArticleDataController).scoped(),
     editController: asClass(EditController).scoped(),
     prompt: asValue(
       "Write a very detailed Article Using the following structure \n Title: \n Body:"

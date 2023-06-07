@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const container = require("./container");
 
-const askController = container.resolve("askController");
+const articleDataController = container.resolve("articleDataController");
 const editController = container.resolve("editController");
 
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/ask", askController.ask.bind(askController));
+app.post("/ask", articleDataController.ask.bind(articleDataController));
 app.post("/edit", editController.edit.bind(editController));
 
 app.listen(5000, () => {

@@ -1,4 +1,4 @@
-class GetYouTubeRecommendationsUseCase {
+class GetYouTubeVideosUseCase {
   constructor(youTubeService) {
     this.youTubeService = youTubeService;
   }
@@ -16,4 +16,4 @@ class GetYouTubeRecommendationsUseCase {
   }
 }
 
-module.exports = GetYouTubeRecommendationsUseCase;
+module.exports = GetYouTubeVideosUseCase;
