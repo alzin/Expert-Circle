@@ -50,8 +50,10 @@ function extractTitle(text) {
 function extractBody(text) {
   let body = "Default body";
   const bodyIndex = text.indexOf("Body:");
+  console.log(bodyIndex);
   if (bodyIndex !== -1) {
-    body = text.split("Body:")[1].split("Ref:")[0];
+    body = text.split("Body:")[1];
+    console.log(body);
   }
   return body;
 }

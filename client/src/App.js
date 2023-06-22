@@ -1,16 +1,20 @@
 import { useState } from "react";
 import QuestionInput from "./components/QuestionInput/QuestionInput";
 import Article from "./components/Article/Article";
-
 import Loader from "./components/Loader/Loader";
+import YouTubeCarousel from "./components/YouTubeCarousel/YouTubeCarousel.jsx";
 
 const App = () => {
   const [articleTitle, setArticleTitle] = useState("");
   const [articleImageUrl, setArticleImageUrl] = useState("");
   const [articleBody, setArticleBody] = useState("");
-  const [articleSections, setArticleSections] = useState([]);
   const [articleYoutubeVideos, setArticleYouTubeVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const extractVideIds = (videos) => {
+    const videoIds = videos.map((video) => video.id.videoId);
+    return videoIds;
+  };
 
   const handleSubmit = async (question) => {
     try {
@@ -41,14 +45,8 @@ const App = () => {
         body: JSON.stringify({ prompt: edit }),
       });
       const responseText = await response.json();
-
-      const content = responseText.newText;
-      const newSection = {
-        title: edit,
-        content: content,
-      };
-
-      setArticleSections([...articleSections, newSection]);
+      setArticleTitle(responseText.title);
+      setArticleBody(responseText.body);
     } catch (error) {
       console.log(error);
     }
@@ -62,11 +60,11 @@ const App = () => {
           title={articleTitle}
           image={articleImageUrl}
           body={articleBody}
-          sections={articleSections}
-          videos={articleYoutubeVideos}
+          sections=""
+          onEdit={handleEdit}
         />
+        <YouTubeCarousel videoIds={extractVideIds(articleYoutubeVideos)} />
         {isLoading ? <Loader /> : <div></div>}
-        <QuestionInput onSubmit={handleEdit} />
       </div>
     );
   } else {

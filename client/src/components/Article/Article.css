@@ -13,24 +13,3 @@
   width: 100%;
   background-color: wheat;
 }
-
-.article-title {
-  text-align: center;
-}
-
-.article-image {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 1rem;
-}
-
-.article-references {
-  margin-top: 2rem;
-}
-
-.article-references ul {
-  list-style: disc;
-  margin-left: 2rem;
-}

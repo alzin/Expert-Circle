@@ -10,6 +10,7 @@ class GenerateCustomArticleUseCase {
     } catch (error) {
       console.error("GenerateCustomArticleUseCase: " + error.message);
     }
+
     return article;
   }
 }
