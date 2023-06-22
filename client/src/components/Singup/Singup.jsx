@@ -1,13 +1,13 @@
 // Signup.js
 
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -18,7 +18,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/signup', formData);
+      const response = await axios.post("/api/signup", formData);
       console.log(response.data);
       // Redirect or display success message
     } catch (error) {
