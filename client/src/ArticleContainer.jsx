@@ -1,3 +1,4 @@
+import React from "react";
 import { useArticleData } from "./useArticleData";
 import QuestionInput from "./components/QuestionInput/QuestionInput";
 import Article from "./components/Article/Article";

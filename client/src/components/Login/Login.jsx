@@ -1,7 +1,7 @@
-// Login.js
-
 import React, { useState } from "react";
 import axios from "axios";
+
+import "./Login.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -28,22 +28,33 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <button type="submit">Login</button>
+    <form onSubmit={handleSubmit} className="login-form">
+      <h2>Login</h2>
+      <div className="form-group">
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
+      <button type="submit" className="submit-button">
+        Login
+      </button>
     </form>
   );
 };
