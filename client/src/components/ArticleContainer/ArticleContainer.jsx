@@ -1,10 +1,10 @@
 import React from "react";
-import { useArticleData } from "./useArticleData";
-import QuestionInput from "./components/QuestionInput/QuestionInput";
-import Article from "./components/Article/Article";
-import Loader from "./components/Loader/Loader";
-import YouTubeCarousel from "./components/YouTubeCarousel/YouTubeCarousel.jsx";
-import { extractVideoIds } from "./articleUtils";
+import { useArticleData } from "../../useArticleData";
+import QuestionInput from "../QuestionInput/QuestionInput";
+import Article from "../Article/Article";
+import Loader from "../Loader/Loader";
+import YouTubeCarousel from "../YouTubeCarousel/YouTubeCarousel.jsx";
+import { extractVideoIds } from "../../articleUtils";
 
 const App = () => {
   const {

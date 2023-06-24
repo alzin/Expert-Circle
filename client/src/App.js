@@ -7,7 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import ArticleContainer from "./ArticleContainer.jsx";
+import ArticleContainer from "./components/ArticleContainer/ArticleContainer.jsx";
 import Login from "./components/Login/Login.jsx";
 import Singup from "./components/Singup/Singup.jsx";
 

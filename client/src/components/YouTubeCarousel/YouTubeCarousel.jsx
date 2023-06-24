@@ -2,13 +2,13 @@ import React from "react";
 import ReactPlayer from "react-player";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import "./VideoCraousel.css";
+import "./VideoCarousel.css";
 
 const YouTubeCarousel = ({ videoIds }) => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 2,
+      items: 1,
       slidesToSlide: 1,
     },
     tablet: {
@@ -25,7 +25,7 @@ const YouTubeCarousel = ({ videoIds }) => {
 
   return (
     <div className="carousel-video">
-      <Carousel responsive={responsive}>
+      <Carousel responsive={responsive} showDots={true}>
         {videoIds.map((videoId) => (
           <div key={videoId} className="react-player">
             <ReactPlayer
