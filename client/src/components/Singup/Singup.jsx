@@ -18,12 +18,17 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/signup", formData);
+      const response = await axios.post(
+        "http://localhost:5000/api/register",
+        formData
+      );
       console.log(response.data);
-      // Redirect or display success message
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      window.location.href = "/";
     } catch (error) {
-      console.error(error);
-      // Handle error
+      const errorMessage = error.response.data.message;
+      alert(errorMessage);
     }
   };
 

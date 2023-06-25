@@ -17,13 +17,16 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/login", formData);
-      console.log(response.data);
-      // Store token in local storage or context
-      // Redirect or set authentication status
+      const response = await axios.post(
+        "http://localhost:5000/api/login",
+        formData
+      );
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      window.location.href = "/";
     } catch (error) {
-      console.error(error);
-      // Handle error
+      const errorMessage = error.response.data.message;
+      alert(errorMessage);
     }
   };
 
