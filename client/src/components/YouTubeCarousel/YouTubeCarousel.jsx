@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import ReactPlayer from "react-player";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./VideoCarousel.css";
 
 const YouTubeCarousel = ({ videoIds }) => {
+  const carouselRef = useRef(null);
+  const [activeVideoId, setActiveVideoId] = useState(videoIds[0]);
+
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -23,9 +26,21 @@ const YouTubeCarousel = ({ videoIds }) => {
     },
   };
 
+  const handleSlideChange = () => {
+    const currentSlide = carouselRef.current.state.currentSlide;
+    const nextVideoId = videoIds[currentSlide];
+    setActiveVideoId(nextVideoId);
+  };
+
   return (
     <div className="carousel-video">
-      <Carousel responsive={responsive} showDots={true}>
+      <Carousel
+        ref={carouselRef}
+        responsive={responsive}
+        showDots={true}
+        beforeChange={handleSlideChange}
+        afterChange={handleSlideChange}
+      >
         {videoIds.map((videoId) => (
           <div key={videoId} className="react-player">
             <ReactPlayer
@@ -33,7 +48,7 @@ const YouTubeCarousel = ({ videoIds }) => {
               volume={0.1}
               muted
               width="44%"
-              playing={true}
+              playing={videoId === activeVideoId}
             />
           </div>
         ))}
