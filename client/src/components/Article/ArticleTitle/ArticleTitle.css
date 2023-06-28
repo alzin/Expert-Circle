@@ -1,0 +1,7 @@
+.article-title {
+  text-align: center;
+  border: 1px solid black;
+  width: 350px;
+  margin: 20px auto;
+  padding: 5px;
+}

@@ -9,10 +9,12 @@
 }
 
 .react-multiple-carousel__arrow--left {
-  height: 100px;
-  width: 100px;
+  left: calc(20% + 1px);
+  height: 50px;
+  width: 50px;
 }
 .react-multiple-carousel__arrow--right {
-  height: 100px;
-  width: 100px;
+  right: calc(20% + 1px);
+  height: 50px;
+  width: 50px;
 }

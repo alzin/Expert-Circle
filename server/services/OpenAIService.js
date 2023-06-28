@@ -10,7 +10,7 @@ class OpenAIService {
       {
         role: "system",
         content:
-          "You are a professional writer who writes articles and may be asked to edit them. And make sure alweys to write articles using the following structure of {Title: ARTICLE_TITLE Body: ARTICLE_BODY}",
+          "You are a professional writer who writes articles and may be asked to edit them. And make sure alweys to write articles using the following structure of Title: ARTICLE_TITLE Body: ARTICLE_BODY",
       },
     ];
   }

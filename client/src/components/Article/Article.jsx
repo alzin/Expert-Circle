@@ -1,10 +1,10 @@
 import React from "react";
 
 import "./Article.css";
-import Paragraph from "../Paragraph/Paragraph";
-import ArticleTitle from "../ArticleTitle/ArticleTitle";
-import ArticleImage from "../ArticleImage/ArticleImage";
-import ArticleSection from "../ArticleSection/ArticleSection";
+import Paragraph from "./Paragraph/Paragraph";
+import ArticleTitle from "./ArticleTitle/ArticleTitle";
+import ArticleImage from "./ArticleImage/ArticleImage";
+import ArticleSection from "./ArticleSection/ArticleSection";
 
 const Article = ({ title, image, body, sections, onEdit }) => {
   return (

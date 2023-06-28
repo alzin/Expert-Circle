@@ -1,3 +1,12 @@
+.login-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 8px;
+}
+
 .login-form {
   width: 300px;
   margin: 0 auto;
@@ -51,5 +60,3 @@
 .login-form .submit-button:hover {
   background-color: #45a049;
 }
-
-/* Optional: Add more styles as needed */
